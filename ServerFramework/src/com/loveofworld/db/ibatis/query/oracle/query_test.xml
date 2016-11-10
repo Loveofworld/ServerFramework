@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" 
+						"http://ibatis.apache.org/dtd/sql-map-2.dtd"> 
+						
+<sqlMap namespace="test">
+
+	<select id="SelectTest" resultClass="java.util.HashMap">
+		<![CDATA[ 
+			SELECT       
+			       ADM_USR.ID
+				 , ADM_USR.NAME		AS USER_NAME
+				 , ADM_USR.EMP_CODE
+				 , ADM_USR.AUTH_CODE 
+				 , ADM_AUTH.VALUE   AS AUTH_VALUE
+				 , ADM_USR.USE_YN
+			 	 , ADM_USR.REG_DATE
+			     , ADM_USR.EDIT_DATE
+			     , ADM_AUTH.NAME	AS AUTH_NAME
+			  FROM ADM_USR_INFO		ADM_USR
+			     , ADM_AUTH_INFO	ADM_AUTH
+			 WHERE ADM_AUTH.SEQ_NO	 =  ADM_USR.AUTH_CODE
+		 ]]>
+	</select>
+</sqlMap>

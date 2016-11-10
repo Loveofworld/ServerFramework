@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd"> 
+
+<mapper namespace="com.vinflux.mobile.ems.notive_event">
+
+	<parameterMap id="parameterMap" type="java.util.HashMap" />
+ 	<resultMap id="resultMap" type="java.util.HashMap" />
+
+	<select id="SelectNoticeInfoList" parameterMap="parameterMap" resultMap="resultMap">
+		<![CDATA[
+			SELECT NTICID
+			     , CTKEY
+			     , LAKEY
+			     , NTICNAME
+			     , NTICDESC
+			     , NTICSTARTDATE
+			     , NTICENDDATE
+			     , INSERTDATE
+			     , INSERTURKEY
+			     , UPDATEDATE
+			     , UPDATEURKEY
+			  FROM TSE_INFO_NTIC
+			 WHERE CTKEY = #{CTKEY}
+			 ORDER BY INSERTDATE DESC
+		]]>		
+	</select>
+
+	<select id="SelectEventInfoList" parameterMap="parameterMap" resultMap="resultMap">
+		<![CDATA[
+			
+			SELECT EVENTID
+			     , EVENTNAME
+			     , EVENTDESC
+			     , IMGID
+			     , EVENTSTARTDATE
+			     , EVENTENDDATE
+			     , ISDISPLAY
+			     , INSERTDATE
+			     , INSERTURKEY
+			     , UPDATEDATE
+			     , UPDATEURKEY
+			     , (SELECT IMGURL 
+			          FROM TSE_INFO_IMG B
+			         WHERE IMGTYPE = 'EVENT'
+			           AND B.REFERID = A.EVENTID) AS IMGURL
+			     , (SELECT IMGURL 
+			          FROM TSE_INFO_IMG B
+			         WHERE IMGTYPE = 'HTML'
+			           AND B.REFERID = A.EVENTID) AS EVENT_CONTENTS
+			  FROM TSE_INFO_EVT A
+			 WHERE CTKEY = #{CTKEY}
+			--   AND EVENTENDDATE   >  to_char(current_timestamp,'YYYYMMDD')
+			--   AND EVENTSTARTDATE <= to_char(current_timestamp,'YYYYMMDD')
+			 ORDER BY INSERTDATE DESC
+		]]>		
+	</select>
+
+
+</mapper>

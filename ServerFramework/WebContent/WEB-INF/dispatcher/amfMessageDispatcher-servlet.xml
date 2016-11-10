@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:p="http://www.springframework.org/schema/p"
+   	   xmlns:context="http://www.springframework.org/schema/context"
+	   xmlns:flex="http://www.springframework.org/schema/flex" 
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	   					   http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+	   					   http://www.springframework.org/schema/flex
+        				   http://www.springframework.org/schema/flex/spring-flex-1.0.xsd">
+ 
+	 <!-- loveofworld :
+	 	BlazeDS설정 파일인 service-config.xml파일을 읽어 MessageBrokerFactoryBean에 등록할 수 있도록 같이 
+	 	flex namespace를 사용해 정의한다.
+	 	아래의 설정은 Default설정으로 service-config.xml파일이 classpath*:service-config.xml에 있을 경우에 사용할 수 있다.
+	 	추가적인 설정에 대해서는 Spring BlazeDS Integration Configuration을 참고한다. 
+	  -->
+ 	<flex:message-broker services-config-path="/WEB-INF/flex/services-config.xml">
+ 		<flex:remoting-service default-channels="my-amf, my-http, my-secure-amf" />
+  		<flex:message-service default-channels="my-streaming-amf,my-longpolling-amf,my-polling-amf" />	
+    </flex:message-broker>
+    
+    
+ <!-- 
+	 <bean class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+	    <property name="mappings">
+	        <value>
+	        /messagebroker/*=_messageBroker
+	        </value>
+	    </property>
+	</bean>
+	
+	<bean class="org.springframework.flex.servlet.MessageBrokerHandlerAdapter"/>
+ -->
+</beans>

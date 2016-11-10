@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd"> 
+
+<mapper namespace="com.vinflux.mobile.gasstation.info">
+
+	<parameterMap id="parameterMap" type="java.util.HashMap" />
+ 	<resultMap id="resultMap" type="java.util.HashMap" />
+
+
+
+	<sql id="SelectAllGasInfo">
+			SELECT A.GASSTATION_NO
+		         , B.GASPRICE_NO
+				 , A.LOCATION_AREA
+				 , A.STATION_NAME
+				 , A.STATION_ADDRESS
+				 , A.STATION_COMPANY
+				 , A.IS_SELF
+				 , B.PRICE_GAS_HIGH
+				 , B.PRICE_GAS
+				 , B.PRICE_DIESEL
+				 , B.PRICE_LAMPOIL
+				 , A.LAT
+				 , A.LNG
+				 , A.ACCURACY
+				 , A.PLACE_ID
+				 , A.INSERT_DATE AS STATION_INSERT_DATE
+				 , A.INSERT_USER AS STATION_INSERT_USER
+				 , A.UPDATE_DATE AS STATION_UPDATE_DATE
+				 , A.UPDATE_USER AS STATION_UPDATE_USER
+				 , B.INSERT_DATE AS PRICE_INSERT_DATE
+				 , B.INSERT_USER AS PRICE_INSERT_USER
+				 , B.UPDATE_DATE AS PRICE_UPDATE_DATE
+				 , B.UPDATE_USER AS PRICE_UPDATE_USER
+		      FROM TB_INFO_GASSTATION A 
+                 , TB_INFO_GASPRICE B
+		     WHERE A.GASSTATION_NO = B.GASSTATION_NO
+	</sql>
+	
+	
+	<sql id="SelectGasStationInfo">
+			SELECT A.GASSTATION_NO
+				 , A.LOCATION_AREA
+				 , A.STATION_NAME
+				 , A.STATION_ADDRESS
+				 , A.STATION_COMPANY
+				 , A.IS_SELF
+				 , A.LAT
+				 , A.LNG
+				 , A.ACCURACY
+				 , A.PLACE_ID
+				 , A.INSERT_DATE AS STATION_INSERT_DATE
+				 , A.INSERT_USER AS STATION_INSERT_USER
+				 , A.UPDATE_DATE AS STATION_UPDATE_DATE
+				 , A.UPDATE_USER AS STATION_UPDATE_USER
+		      FROM TB_INFO_GASSTATION A 
+	</sql>
+	
+	<sql id="SelectGasPriceInfo">
+			SELECT B.GASSTATION_NO
+			     , B.GASPRICE_NO
+				 , B.PRICE_GAS_HIGH
+				 , B.PRICE_GAS
+				 , B.PRICE_DIESEL
+				 , B.PRICE_LAMPOIL
+				 , B.INSERT_DATE AS PRICE_INSERT_DATE
+				 , B.INSERT_USER AS PRICE_INSERT_USER
+				 , B.UPDATE_DATE AS PRICE_UPDATE_DATE
+				 , B.UPDATE_USER AS PRICE_UPDATE_USER
+		      FROM TB_INFO_GASPRICE B
+	</sql>
+	
+	<select id="SelectGasInfoList" parameterMap="parameterMap" resultMap="resultMap">
+		<include refid="SelectAllGasInfo"/>
+	</select>
+	
+	<select id="SelectGasDailyInfo" parameterMap="parameterMap" resultMap="resultMap">
+		<include refid="SelectAllGasInfo"/>
+		<![CDATA[
+  		      AND B.UPDATE_DATE LIKE CONCAT(date_format(date_add(now(), INTERVAL -9 HOUR),'%Y%m%d'), '%')
+		]]>		
+	</select>
+	
+	<select id="SelectGasStationInfo" parameterMap="parameterMap" resultMap="resultMap">
+		<include refid="SelectGasStationInfo"/>
+		<![CDATA[
+			 WHERE A.STATION_NAME    = #{STATION_NAME}
+			   AND A.STATION_ADDRESS = #{STATION_ADDRESS}
+		]]>
+	</select>
+	
+	
+	<select id="SelectGasPriceInfo" parameterMap="parameterMap" resultMap="resultMap">
+		<include refid="SelectGasPriceInfo"/>
+		<![CDATA[
+			 WHERE B.GASSTATION_NO   = #{GASSTATION_NO}
+		]]>
+		
+		<if test="IS_TODAY_DATA == 'TRUE'">
+			<![CDATA[
+				 AND B.UPDATE_DATE LIKE CONCAT(date_format(date_add(now(), INTERVAL -9 HOUR),'%Y%m%d'), '%')
+			]]>	
+		</if>
+				
+	</select>
+	
+	
+	<insert id="InsertGasStationInfo" parameterMap="parameterMap">
+		<![CDATA[
+			INSERT INTO TB_INFO_GASSTATION
+			( GASSTATION_NO
+			, LOCATION_AREA
+			, STATION_NAME
+			, STATION_ADDRESS
+			, STATION_COMPANY
+			, IS_SELF
+			, LAT
+			, LNG
+			, ACCURACY
+			, PLACE_ID
+			, INSERT_DATE
+			, INSERT_USER
+			, UPDATE_DATE
+			, UPDATE_USER
+			)
+			VALUES
+			( #{GASSTATION_NO}
+			, #{LOCATION_AREA}
+			, #{STATION_NAME}
+			, #{STATION_ADDRESS}
+			, #{STATION_COMPANY}
+			, #{IS_SELF}
+			, #{LAT}
+			, #{LNG}
+			, 0.0 
+			, #{PLACE_ID}   
+			, date_format(now(),'%Y%m%d%H%i%s')
+			, #{USER_ID}
+			, date_format(now(),'%Y%m%d%H%i%s')
+			, #{USER_ID}
+			)
+		]]>
+	</insert>
+	
+	
+	
+	<insert id="InsertGasPriceInfo" parameterMap="parameterMap">
+		<![CDATA[
+			INSERT INTO TB_INFO_GASPRICE
+			( GASPRICE_NO
+			, GASSTATION_NO 
+			, PRICE_GAS_HIGH 
+			, PRICE_GAS   
+			, PRICE_DIESEL 
+			, PRICE_LAMPOIL 
+			, INSERT_DATE
+			, INSERT_USER
+			, UPDATE_DATE
+			, UPDATE_USER
+			)
+			VALUES
+			( #{GASPRICE_NO}
+			, #{GASSTATION_NO}
+			, #{PRICE_GAS_HIGH} 
+			, #{PRICE_GAS}   
+			, #{PRICE_DIESEL} 
+			, #{PRICE_LAMPOIL}
+			, date_format(now(),'%Y%m%d%H%i%s')
+			, #{USER_ID}
+			, date_format(now(),'%Y%m%d%H%i%s')
+			, #{USER_ID}
+			)
+		]]>
+	</insert>
+	
+	<update id="UpdateGasPriceDailyInfo" parameterMap="parameterMap">
+		<![CDATA[
+			UPDATE TB_INFO_GASPRICE
+			   SET PRICE_GAS_HIGH = #{PRICE_GAS_HIGH}
+			     , PRICE_GAS      = #{PRICE_GAS}
+			     , PRICE_DIESEL   = #{PRICE_DIESEL}
+			     , PRICE_LAMPOIL  = #{PRICE_LAMPOIL}
+			     , UPDATE_DATE    = date_format(now(),'%Y%m%d%H%i%s')
+			     , UPDATE_USER    = #{USER_ID}
+	   	     WHERE GASSTATION_NO  = #{GASSTATION_NO}
+	   	       AND UPDATE_DATE    = #{UPDATE_DATE}
+		]]>
+	</update>
+
+	
+</mapper>

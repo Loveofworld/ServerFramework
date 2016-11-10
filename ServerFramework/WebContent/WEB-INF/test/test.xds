@@ -1,0 +1,49 @@
+{
+    "name": "test",
+    "settings": {},
+    "xdsVersion": "2.2.3",
+    "xdsBuild": 1044,
+    "schemaVersion": 1,
+    "upgradeVersion": 210000000503,
+    "framework": "touch23",
+    "topInstanceFileMap": {
+        "09cfe419-a02a-48de-8755-8ec0c8189a8f": {
+            "paths": [
+                "metadata/resource/Library"
+            ],
+            "className": "Library"
+        },
+        "a347fe1c-72a0-481a-a15f-4aef5ccc24e8": {
+            "paths": [
+                "metadata/view/MyPanel",
+                "app/view/override/MyPanel.js",
+                "app/view/MyPanel.js"
+            ],
+            "className": "MyPanel"
+        },
+        "9e358f6a-172d-48cf-8d01-b701287d6795": {
+            "paths": [
+                "metadata/controller/MyController",
+                "app/controller/override/MyController.js",
+                "app/controller/MyController.js"
+            ],
+            "className": "MyController"
+        }
+    },
+    "viewOrderMap": {
+        "view": [
+            "a347fe1c-72a0-481a-a15f-4aef5ccc24e8"
+        ],
+        "store": [],
+        "controller": [
+            "9e358f6a-172d-48cf-8d01-b701287d6795"
+        ],
+        "model": [],
+        "resource": [
+            "09cfe419-a02a-48de-8755-8ec0c8189a8f"
+        ],
+        "app": [
+            "application"
+        ]
+    }
+}

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
+<generatorConfiguration >
+
+	<classPathEntry location="/Users/loveofworld/.m2/repository/com/oracle/ojdbc14/10.2.0.2.0/ojdbc14-10.2.0.2.0.jar" />
+
+	<context id="context1" >
+
+		<jdbcConnection driverClass="oracle.jdbc.driver.OracleDriver" 
+	    				connectionURL="jdbc:oracle:thin:@210.116.104.24:1521:ORCL" 
+	    				userId="SESAME" 
+	    				password="sesame" />
+	    				
+	    <javaModelGenerator targetPackage="com.vinflux.mobile.mvc.model.data" 
+	    					targetProject="D2AMAppServer" />
+	    					
+	    <sqlMapGenerator targetPackage="com.vinflux.mobile.mvc.model.xml" 
+	    				 targetProject="D2AMAppServer" />
+	    				 
+	    <javaClientGenerator targetPackage="com.vinflux.mobile.mvc.model.mapper"
+	    					 targetProject="D2AMAppServer" 
+	    					 type="XMLMAPPER" />
+	    					 
+	    <table schema="sesame" tableName="tse_info_img" />
+	   
+	    
+	</context>
+  
+</generatorConfiguration>

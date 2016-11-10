@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd"> 
+
+<mapper namespace="com.vinflux.mobile.ems.cart">
+	<parameterMap id="parameterMap" type="java.util.HashMap" />
+ 	<resultMap id="resultMap" type="java.util.HashMap" />
+	
+	<select id="SelectCartInfoList" parameterMap="parameterMap" resultMap="resultMap">
+		<![CDATA[
+			SELECT DISTINCT
+			       A.CTKEY
+			     , A.OWKEY
+			     , A.RPRICKEY
+			     , B.ICNAME
+			     , A.BRANDCODE
+		         , NVL(A.SALEPRICE, '0') AS SALEPRICE
+			     , NVL(A.COSTPRICE, '0') AS COSTPRICE
+			     , NVL(A.DISRATE  , '0') AS DISRATE
+			     , NVL(A.SAVMONEY , '0') AS SAVMONEY
+			     
+			     , NVL(
+			          (SELECT DISTINCT
+			                  SUBSTR(XMLAGG(XMLELEMENT("COLOR", ','||C.COLOR) ORDER BY C.COLOR ).EXTRACT('//text()'), 2) AS COLOR
+			             FROM TWORK_MST_IC_HD C
+			            WHERE C.RPRICKEY = A.RPRICKEY), 'NONE') AS COLOR
+			     
+			     , NVL(
+			        (SELECT DISTINCT
+			                SUBSTR(XMLAGG(XMLELEMENT("ISIZE", ','||C.ISIZE) ORDER BY C.ISIZE ).EXTRACT('//text()'), 2) AS ISIZE
+			             FROM TWORK_MST_IC_HD C
+			            WHERE C.RPRICKEY = A.RPRICKEY), 'NONE') AS ISIZE
+			         
+			    , NVL(
+			        (SELECT C.IMGURL
+			           FROM TWORK_MST_IC_IMG C
+			          WHERE C.RPRICKEY = A.RPRICKEY 
+			            AND C.IMGSEQ   = '1'), 'NONE') AS MAIN_IMAGE   
+			          
+			    , NVL(
+			         (SELECT SUBSTR(XMLAGG(XMLELEMENT("IMGURL", ','||C.IMGURL) ORDER BY C.IMGURL ).EXTRACT('//text()'), 2) AS IMGURL
+			           FROM TWORK_MST_IC_IMG C
+			          WHERE C.RPRICKEY = A.RPRICKEY 
+			            AND C.IMGSEQ  <> '1'), 'NONE') AS DETAIL_IMAGE   
+
+			     , C.SBAGDTKEY
+			     , C.RPRICKEY
+			     , C.ISIZE AS SELECT_ISIZE
+			     , C.COLOR AS SELECT_COLOR
+			     , C.QTY   AS SELECT_QTY
+			     , C.SENDERBARCODE
+			     , C.RECEIVERBARCODE
+			     , A.INSERTDATE
+			  FROM TWORK_MST_IC_HD A
+			     , TWORK_MST_IC_DT B
+			     , TSE_INFO_SBAG  C
+			 WHERE A.ICKEY    = B.ICKEY
+			   AND A.RPRICKEY = C.RPRICKEY
+		       AND A.CTKEY    = #{CTKEY}
+			   AND C.MBRBARCODE = #{MBRBARCODE}
+			 ORDER BY A.INSERTDATE DESC
+		
+ 		]]>	 
+	</select>
+	
+	<select id="SelectCartInfo" parameterMap="parameterMap" resultMap="resultMap">
+		<![CDATA[
+			SELECT DISTINCT
+			       A.CTKEY
+			     , A.OWKEY
+			     , A.RPRICKEY
+			     , B.ICNAME
+			     , A.BRANDCODE
+			     , A.SALEPRICE
+				 , NVL(A.SALEPRICE, '0') AS SALEPRICE
+			     , NVL(A.COSTPRICE, '0') AS COSTPRICE
+			     , NVL(A.DISRATE  , '0') AS DISRATE
+			     , NVL(A.SAVMONEY , '0') AS SAVMONEY
+				 
+			     , NVL(
+			          (SELECT DISTINCT
+			                  SUBSTR(XMLAGG(XMLELEMENT("COLOR", ','||C.COLOR) ORDER BY C.COLOR ).EXTRACT('//text()'), 2) AS COLOR
+			             FROM TWORK_MST_IC_HD C
+			            WHERE C.RPRICKEY = A.RPRICKEY), 'NONE') AS COLOR
+			     
+			     , NVL(
+			        (SELECT DISTINCT
+			                SUBSTR(XMLAGG(XMLELEMENT("ISIZE", ','||C.ISIZE) ORDER BY C.ISIZE ).EXTRACT('//text()'), 2) AS ISIZE
+			             FROM TWORK_MST_IC_HD C
+			            WHERE C.RPRICKEY = A.RPRICKEY), 'NONE') AS ISIZE
+			         
+				, NVL(
+			        (SELECT C.IMGURL
+			           FROM TWORK_MST_IC_IMG C
+			          WHERE C.RPRICKEY = A.RPRICKEY 
+			            AND C.IMGSEQ   = '1'), 'NONE') AS MAIN_IMAGE   
+			          
+			    , NVL(
+			         (SELECT SUBSTR(XMLAGG(XMLELEMENT("IMGURL", ','||C.IMGURL) ORDER BY C.IMGURL ).EXTRACT('//text()'), 2) AS IMGURL
+			           FROM TWORK_MST_IC_IMG C
+			          WHERE C.RPRICKEY = A.RPRICKEY 
+			            AND C.IMGSEQ  <> '1'), 'NONE') AS DETAIL_IMAGE     
+
+			     , C.SBAGDTKEY
+			     , C.RPRICKEY
+			     , C.ISIZE AS SELECT_ISIZE
+			     , C.COLOR AS SELECT_COLOR
+			     , C.QTY   AS SELECT_QTY
+			     , C.SENDERBARCODE
+			     , C.RECEIVERBARCODE
+			     , A.INSERTDATE
+			  FROM TWORK_MST_IC_HD A
+			     , TWORK_MST_IC_DT B
+			     , TSE_INFO_SBAG   C
+			 WHERE A.ICKEY    = B.ICKEY
+			   AND A.RPRICKEY = C.RPRICKEY
+		       AND A.CTKEY    = #{CTKEY}
+			   AND C.SBAGDTKEY = #{SBAGDTKEY}
+			   AND C.MBRBARCODE = #{MBRBARCODE}
+			 ORDER BY A.INSERTDATE DESC
+		
+ 		]]>	 
+	</select>	
+	
+	
+	
+	<insert id="InsertCartInfo" parameterMap="parameterMap">
+		<![CDATA[
+			INSERT INTO TSE_INFO_SBAG 
+			(
+			    CTKEY
+			  , SBAGDTKEY
+			  , MBRBARCODE
+			  , RPRICKEY
+			  , ISIZE
+			  , COLOR
+			  , QTY
+			  , SENDERBARCODE
+			  , RECEIVERBARCODE
+			  , INSERTDATE
+			  , UPDATEDATE
+			)
+			VALUES
+			(
+			    #{CTKEY}
+			  , #{SBAGDTKEY}
+			  , #{MBRBARCODE}
+			  , #{RPRICKEY}
+			  , #{ISIZE}
+			  , #{COLOR}
+			  , #{QTY}
+			  , #{SENDERBARCODE}
+			  , #{RECEIVERBARCODE}
+			  , to_char(current_timestamp,'YYYYMMDDHH24MISS')
+			  , to_char(current_timestamp,'YYYYMMDDHH24MISS')
+			)	
+		]]>		
+	</insert>
+	
+	
+	
+	<update id="UpdateCartInfo" parameterMap="parameterMap">
+		
+		<![CDATA[
+			UPDATE TSE_INFO_SBAG
+			   SET UPDATEDATE = to_char(current_timestamp,'YYYYMMDDHH24MISS')
+		]]>	
+		
+		<if test="ISIZE != null">
+			<![CDATA[
+				 , ISIZE  = #{ISIZE}
+			]]>	
+		</if>
+		
+		<if test="ICOLOR != null">
+			<![CDATA[
+				 , ICOLOR = #{ICOLOR}
+			]]>	
+		</if>
+
+		<if test="QTY != null">
+			<![CDATA[
+				 , QTY    = #{QTY}
+			]]>	
+		</if>
+				
+		<![CDATA[
+			 WHERE MBRBARCODE = #{MBRBARCODE}
+			   AND SBAGDTKEY  = #{SBAGDTKEY}
+  		       AND CTKEY    = #{CTKEY}
+		]]>	
+		
+	</update>	
+	
+	
+	
+	<delete id="DeleteCartInfo" parameterMap="parameterMap">
+		<![CDATA[	
+			DELETE FROM TSE_INFO_SBAG
+			 WHERE MBRBARCODE = #{MBRBARCODE}
+			   AND SBAGDTKEY = #{SBAGDTKEY}
+	   	       AND CTKEY    = #{CTKEY}
+ 		]]>	 
+	</delete>
+
+
+</mapper>

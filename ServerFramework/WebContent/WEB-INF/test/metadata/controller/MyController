@@ -1,0 +1,32 @@
+{
+    "type": "Ext.app.Controller",
+    "reference": {
+        "name": "items",
+        "type": "array"
+    },
+    "codeClass": null,
+    "userConfig": {
+        "designer|userClassName": "MyController"
+    },
+    "designerId": "9e358f6a-172d-48cf-8d01-b701287d6795",
+    "cn": [
+        {
+            "type": "controlleraction",
+            "reference": {
+                "name": "listeners",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "fn": "onPanelInitialize",
+                "implHandler": [
+                    "console.log(component);"
+                ],
+                "name": "initialize",
+                "designer|targetType": "Ext.Panel",
+                "designer|controlQuery": "panel"
+            },
+            "designerId": "ddb7214f-d9b9-4e27-9b00-7e389fef569b"
+        }
+    ]
+}

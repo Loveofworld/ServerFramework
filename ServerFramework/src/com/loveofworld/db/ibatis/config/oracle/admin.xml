@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?> 
+<!DOCTYPE sqlMapConfig PUBLIC "-//iBATIS.com//DTD SQL Map Config 2.0//EN" 
+							  "http://www.ibatis.com/dtd/sql-map-config-2.dtd"> 
+<sqlMapConfig>
+	
+	<properties resource="com/vinflux/mobile/system/properties/db.oracle.Properties" />
+	
+	<settings
+		cacheModelsEnabled="true"
+		enhancementEnabled="true"
+		lazyLoadingEnabled="true"
+		maxRequests="32"
+		maxSessions="10"
+		maxTransactions="5"
+		useStatementNamespaces="false"
+	/>
+	
+	<!-- 
+		admin.drivername=oracle.jdbc.driver.OracleDriver
+		admin.url=jdbc:oracle:thin:@210.116.104.24:1521:ORCL
+		admin.username =admin 
+		admin.password =admin
+
+	<transactionManager type="JDBC">
+		<dataSource type="SIMPLE">
+			<property name="JDBC.Driver" value="${admin.drivername}" />		
+			<property name="JDBC.ConnectionURL" value="${admin.url}" />
+			<property name="JDBC.Username" value="${admin.username}" />
+			<property name="JDBC.Password" value="${admin.password}" />
+		</dataSource>
+	</transactionManager>
+
+  	<sqlMap resource="com/vinflux/mobile/db/ibatis/query/query_test.xml" />
+ 		 -->
+</sqlMapConfig>
+
+

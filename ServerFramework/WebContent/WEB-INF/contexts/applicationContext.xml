@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:aop="http://www.springframework.org/schema/aop"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:tx="http://www.springframework.org/schema/tx"
+	   xmlns:context="http://www.springframework.org/schema/context" 
+	   xmlns:mvc="http://www.springframework.org/schema/mvc"
+	   xmlns:jaxws="http://cxf.apache.org/jaxws"
+	   xmlns:jaxrs="http://cxf.apache.org/jaxrs"
+	   xmlns:task="http://www.springframework.org/schema/task" 
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	   					   http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+	   					   http://www.springframework.org/schema/context 
+	   					   http://www.springframework.org/schema/context/spring-context-3.1.xsd  
+	   					   http://www.springframework.org/schema/aop
+	   					   http://www.springframework.org/schema/aop/spring-aop-3.1.xsd
+	   					   http://www.springframework.org/schema/jee 
+	   					   http://www.springframework.org/schema/jee/spring-jee.xsd
+						   http://www.springframework.org/schema/lang 
+						   http://www.springframework.org/schema/lang/spring-lang.xsd
+						   http://www.springframework.org/schema/tx 
+						   http://www.springframework.org/schema/tx/spring-tx.xsd
+						   http://www.springframework.org/schema/util 
+						   http://www.springframework.org/schema/util/spring-util.xsd
+						   http://cxf.apache.org/jaxrs 
+						   http://cxf.apache.org/schemas/jaxrs.xsd 
+						   http://cxf.apache.org/jaxws 
+						   http://cxf.apache.org/schemas/jaxws.xsd
+						   http://www.springframework.org/schema/task
+	   					   http://www.springframework.org/schema/task/spring-task-3.1.xsd">
+
+	<aop:aspectj-autoproxy />
+	
+	<context:annotation-config />
+	<context:component-scan base-package="com.loveofworld" />  
+	 
+	 <!-- 
+ 	<bean id="updtaeOnpinetInfo" class="com.vinflux.mobile.batch.UpdtaeOnpinetInfo" />
+	
+	<task:scheduler id="sch_updtaeOnpinetInfo" pool-size="10" />
+	
+	<task:scheduled-tasks scheduler="sch_updtaeOnpinetInfo">
+		<task:scheduled ref="updtaeOnpinetInfo" method="excute" cron="0 0 16 * * *"/> 
+	</task:scheduled-tasks>
+	-->
+	 
+	<!--  Apache CXF Resource : 해당 내용은 cfx.jar 에 포함되어 있다. 
+	<import resource="classpath:META-INF/cxf/cxf.xml"/>
+	<import resource="classpath:META-INF/cxf/cxf-servlet.xml"/>
+  -->
+	<!--  Define workerInfoServiceProvider Endpoint 
+	<jaxws:endpoint id="GlisLogifocusWmsInterface" implementor="com.vinflux.test.soap.GlisLogifocusWmsInterfaceImpl" address="/GlisLogifocusWmsInterface"/>
+	 -->  
+			
+			   
+  	
+	<!-- 					   
+ 	<bean id="exceptionResolver" class="com.vinflux.mobile.service.resolver.DefaultExceptionResolver">
+ 	</bean>  
+ -->
+
+
+<!-- 
+	<aop:aspectj-autoproxy />
+	 
+ 	advice 클래스를 빈으로 등록
+	<bean id="excuteCheckingAdvice" class="com.product.zzan.aop.ExcuteCheckingAdvice" />
+	 -->
+	
+	<!--
+	<context:component-scan base-package="com.cho.message.afterprocess" /> -->
+	
+	<!-- 처리 후 메시지 시작 
+    <bean id="connectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory">
+        <property name="brokerURL" value="tcp://localhost:61616" />
+    </bean>
+
+	<bean id="maxDestination" class="org.apache.activemq.command.ActiveMQQueue">
+    	<constructor-arg index="0" value="com.cho.message.afterprocess.queue" />
+    </bean>    
+    
+	<bean id="packetMessageConverter" class="com.cho.message.afterprocess.PacketMessageConverter"/>	
+
+    <bean id="clientReceiverPOJOListener" class="com.cho.message.afterprocess.ClientReceiverPOJOListener" />
+    
+    <bean id="messageListenerAdapter" class="org.springframework.jms.listener.adapter.MessageListenerAdapter">
+    	<property name="delegate" ref="clientReceiverPOJOListener" />
+    	<property name="defaultListenerMethod" value="setStandardPacket" />
+    	<property name="messageConverter" ref="packetMessageConverter"/>
+    </bean>
+    
+    <bean id="packetMessageListenerContainer" class="org.springframework.jms.listener.DefaultMessageListenerContainer">
+    	<property name="connectionFactory" ref="connectionFactory" />
+    	<property name="destination" ref="maxDestination" />
+    	<property name="messageListener" ref="messageListenerAdapter" />
+    </bean>
+     
+    <bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">
+        <property name="connectionFactory" ref="connectionFactory" />
+        <property name="defaultDestination" ref="maxDestination"/>
+        <property name="messageConverter" ref="packetMessageConverter"/>
+    </bean>
+    
+    처리 후 메시지 끝 -->
+    
+    <!-- 알람 메시지 시작 
+     <bean id="maxDestinationAlarm" class="org.apache.activemq.command.ActiveMQQueue">
+    	<constructor-arg index="0" value="com.cho.message.alarm.queue" />
+    </bean>    
+    
+	<bean id="boardDataMessageConverter" class="com.cho.message.alarm.BoardDataMessageConverter"/>
+    
+    <bean id="jmsTemplateAlarm" class="org.springframework.jms.core.JmsTemplate">
+        <property name="connectionFactory" ref="connectionFactory" />
+        <property name="defaultDestination" ref="maxDestinationAlarm"/>
+        <property name="messageConverter" ref="boardDataMessageConverter"/>
+    </bean>
+
+    <bean id="serverSenderAlarm" class="com.cho.message.alarm.SenderBoardData">
+        <property name="jmsTemplateAlarm" ref="jmsTemplateAlarm"/>
+    </bean>     
+    
+    
+    <bean id="clientReceiverAlarm" class="com.cho.message.alarm.ReceiverBoardData">
+        <property name="jmsTemplateAlarm" ref="jmsTemplateAlarm"/>
+    </bean>     
+  알람 메시지 끝 -->  
+
+</beans>

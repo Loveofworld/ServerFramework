@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd"> 
+
+<mapper namespace="com.vinflux.mobile.ems.shopping">
+	<parameterMap id="parameterMap" type="java.util.HashMap" />
+ 	<resultMap id="resultMap" type="java.util.HashMap" />
+	
+	<select id="SelectProductInfoList" parameterMap="parameterMap" resultMap="resultMap">
+		<![CDATA[
+
+			SELECT *
+			  FROM (
+			  SELECT ROWNUM AS ROWNO, C.* 
+			    FROM (  -- 제품정보 헤더  
+						SELECT DISTINCT
+						     A.CTKEY
+						   , A.OWKEY
+						   , A.RPRICKEY
+						   , B.ICNAME
+						   , A.BRANDCODE
+					       , NVL(A.SALEPRICE, '0') AS SALEPRICE
+						   , NVL(A.COSTPRICE, '0') AS COSTPRICE
+						   , NVL(A.DISRATE  , '0') AS DISRATE
+						   , NVL(A.SAVMONEY , '0') AS SAVMONEY
+						 
+						   , NVL(
+						        (SELECT DISTINCT
+						                SUBSTR(XMLAGG(XMLELEMENT("COLOR", ','||C.COLOR) ORDER BY C.COLOR ).EXTRACT('//text()'), 2) AS COLOR
+						           FROM TWORK_MST_IC_HD C
+						          WHERE C.RPRICKEY = A.RPRICKEY), 'NONE') AS COLOR
+						   
+						   , NVL(
+						   		(SELECT DISTINCT
+						           		SUBSTR(XMLAGG(XMLELEMENT("ISIZE", ','||C.ISIZE) ORDER BY C.ISIZE ).EXTRACT('//text()'), 2) AS ISIZE
+						           FROM TWORK_MST_IC_HD C
+						          WHERE C.RPRICKEY = A.RPRICKEY), 'NONE') AS ISIZE
+						       
+						   , NVL(
+						        (SELECT C.IMGURL
+						           FROM TWORK_MST_IC_IMG C
+						          WHERE C.RPRICKEY = A.RPRICKEY 
+						            AND C.IMGSEQ   = '1'), 'NONE') AS MAIN_IMAGE   
+						          
+						    , NVL(
+						         (SELECT SUBSTR(XMLAGG(XMLELEMENT("IMGURL", ','||C.IMGURL) ORDER BY C.IMGURL ).EXTRACT('//text()'), 2) AS IMGURL
+						           FROM TWORK_MST_IC_IMG C
+						          WHERE C.RPRICKEY = A.RPRICKEY 
+						            AND C.IMGSEQ  <> '1'), 'NONE') AS DETAIL_IMAGE   
+						          
+						   , A.INSERTDATE
+						
+						 FROM TWORK_MST_IC_HD A
+						    , TWORK_MST_IC_DT B
+						WHERE A.ICKEY    = B.ICKEY
+						  AND A.CTKEY   = #{CTKEY}
+			 ]]>
+			 <![CDATA[
+						 ORDER BY A.INSERTDATE DESC
+ 			         ) C
+			   WHERE ROWNUM <= #{LAST_INDEX}
+			   ORDER BY ROWNUM ASC
+			   ) D
+			 WHERE D.ROWNO >= #{START_INDEX}  
+ 		]]>	 
+	</select>
+	
+	
+	
+	<select id="SelectProductInfo" parameterMap="parameterMap" resultMap="resultMap">
+		<![CDATA[
+
+			SELECT DISTINCT
+			     A.CTKEY
+			   , A.OWKEY
+			   , A.RPRICKEY
+			   , B.ICNAME
+			   , A.BRANDCODE
+		       , NVL(A.SALEPRICE, '0') AS SALEPRICE
+			   , NVL(A.COSTPRICE, '0') AS COSTPRICE
+			   , NVL(A.DISRATE  , '0') AS DISRATE
+			   , NVL(A.SAVMONEY , '0') AS SAVMONEY
+			
+			   , NVL(
+			        (SELECT DISTINCT
+			                SUBSTR(XMLAGG(XMLELEMENT("COLOR", ','||C.COLOR) ORDER BY C.COLOR ).EXTRACT('//text()'), 2) AS COLOR
+			           FROM TWORK_MST_IC_HD C
+			          WHERE C.RPRICKEY = A.RPRICKEY), 'NONE') AS COLOR
+			   
+			   , NVL(
+			   		(SELECT DISTINCT
+			           		SUBSTR(XMLAGG(XMLELEMENT("ISIZE", ','||C.ISIZE) ORDER BY C.ISIZE ).EXTRACT('//text()'), 2) AS ISIZE
+			           FROM TWORK_MST_IC_HD C
+			          WHERE C.RPRICKEY = A.RPRICKEY), 'NONE') AS ISIZE
+			       
+			   , NVL(
+			        (SELECT C.IMGURL
+			           FROM TWORK_MST_IC_IMG C
+			          WHERE C.RPRICKEY = A.RPRICKEY 
+			            AND C.IMGSEQ   = '1'), 'NONE') AS MAIN_IMAGE   
+			          
+			    , NVL(
+			         (SELECT SUBSTR(XMLAGG(XMLELEMENT("IMGURL", ','||C.IMGURL) ORDER BY C.IMGURL ).EXTRACT('//text()'), 2) AS IMGURL
+			           FROM TWORK_MST_IC_IMG C
+			          WHERE C.RPRICKEY = A.RPRICKEY 
+			            AND C.IMGSEQ  <> '1'), 'NONE') AS DETAIL_IMAGE   
+   
+			   , A.INSERTDATE
+		
+			 ]]>
+				
+			<choose>
+			   <when test='TYPE == "SHOP"'>
+ 				 FROM TWORK_MST_IC_HD A
+			    	, TWORK_MST_IC_DT B
+				WHERE A.ICKEY    = B.ICKEY
+			      AND A.RPRICKEY = #{RPRICKEY}
+			      AND A.CTKEY  = #{CTKEY}
+			   </when>
+			   <when test='TYPE == "SNS"'>
+				 FROM TWORK_MST_IC_HD A
+			    	, TWORK_MST_IC_DT B
+			    	, TSE_INFO_SRPIC  C
+				WHERE A.ICKEY    = B.ICKEY
+				  AND A.RPRICKEY = C.RPRICKEY
+				  AND C.SCRAPID  = #{SCRAPID}
+  			      AND A.CTKEY   = #{CTKEY}
+			   </when>
+			   <otherwise>
+				 FROM TWORK_MST_IC_HD A
+			    	, TWORK_MST_IC_DT B
+				WHERE A.ICKEY    = B.ICKEY
+			      AND A.CTKEY   = #{CTKEY}	
+			   </otherwise>
+			</choose>
+		
+		<![CDATA[
+		    
+		    ORDER BY A.INSERTDATE DESC
+		]]>	 
+		
+	</select>
+	
+	
+
+
+	<select id="SelectProductColorInfo" parameterMap="parameterMap" resultMap="resultMap">
+		<![CDATA[
+			SELECT DISTINCT
+			       A.RPRICKEY
+			     , A.COLOR
+			  FROM TWORK_MST_IC_HD A
+			 WHERE A.RPRICKEY = #{RPRICKEY}
+			   AND A.CTKEY   = #{CTKEY}
+			 ORDER BY A.COLOR DESC
+		]]>	
+	</select>
+
+	<select id="SelectProductSizeInfo" parameterMap="parameterMap" resultMap="resultMap">
+		<![CDATA[
+			SELECT DISTINCT
+			       A.RPRICKEY
+			     , A.ISIZE
+			  FROM TWORK_MST_IC_HD A
+			 WHERE A.RPRICKEY = #{RPRICKEY}
+			   AND A.CTKEY   = #{CTKEY}
+			 ORDER BY A.ISIZE DESC
+		]]>	
+	</select>
+
+	<select id="SelectProductImageInfo" parameterMap="parameterMap" resultMap="resultMap">
+		<![CDATA[
+			SELECT DISTINCT
+			       A.CTKEY
+			     , A.OWKEY
+			     , A.RPRICKEY
+			     , A.COLOR
+			     , B.RPRIMGFLAG
+			     , B.IMGSEQ
+			     , B.IMGPATH
+			  FROM TWORK_MST_IC_HD A
+			     , TWORK_MST_IC_IMG B
+			 WHERE A.RPRICKEY = B.RPRICKEY
+			   AND A.RPRICKEY = #{RPRICKEY}
+		       AND A.CTKEY   = #{CTKEY}
+			 ORDER BY B.RPRIMGFLAG DESC, B.IMGSEQ ASC 
+		]]>	
+	</select>
+	
+	
+	
+	<select id="SelectProductCategoryInfo" parameterMap="parameterMap" resultMap="resultMap">
+		<![CDATA[
+			SELECT CTKEY
+			     , ICGRKEY
+			     , TRIM(LAKEY) AS LAKEY
+			     , ICGRNAME
+			 FROM TWORK_MST_ICGR
+			WHERE CTKEY = #{CTKEY}
+		]]>	
+	</select>
+	
+
+
+</mapper>
