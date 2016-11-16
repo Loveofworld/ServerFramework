@@ -38,12 +38,13 @@ public class DBHandlerUsingMybatis extends DBHandlerService{
 			
 			ResourcePatternResolver resourcePatternResolver = new PathMatchingResourcePatternResolver();
 			String packageSearchPath = ResourcePatternResolver.CLASSPATH_ALL_URL_PREFIX 
-					                 + dbProperties.getProperty("handler.config.mapper");
+					                 + dbProperties.getProperty("handler.mapper");
 			
 			SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
 			sqlSessionFactoryBean.setDataSource(basicDataSource);
 			sqlSessionFactoryBean.setConfigLocation(new ClassPathResource(dbProperties.getProperty("handler.config")));
-			sqlSessionFactoryBean.setMapperLocations(resourcePatternResolver.getResources(packageSearchPath));			
+			sqlSessionFactoryBean.setMapperLocations(resourcePatternResolver.getResources(packageSearchPath));
+			
 			sqlSessionFactory = sqlSessionFactoryBean.getObject();
 			
 			Log.getInstance().printLog(this, "Setting SqlSessionFactory : " + sqlSessionFactory.toString());

@@ -16,10 +16,13 @@
 	   					   http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd">
 
 	<context:annotation-config />
-	<context:component-scan base-package="com.vinflux.mobile" />  
+	<context:component-scan base-package="com.loveofworld" />  
 
-  	<aop:aspectj-autoproxy proxy-target-class="true"/> 
-	<bean id="controllerAOP" class="com.vinflux.mobile.mvc.controller.aop.ControllerAOP" />
+	<!--
+  	<aop:aspectj-autoproxy proxy-target-class="true"/>
+  	-->
+	<aop:aspectj-autoproxy/> 
+	<bean id="checkController" class="com.loveofworld.mvc.controller.aop.CheckController" />
 	
   	<bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">
   		<property name="detectHandlersInAncestorContexts" value="true"/>

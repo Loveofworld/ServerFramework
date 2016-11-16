@@ -12,24 +12,20 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.flex.remoting.RemotingDestination;
-import org.springframework.flex.remoting.RemotingInclude;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.loveofworld.mvc.controller.abstracts.JsonControllerService;
+import com.loveofworld.mvc.controller.abstracts.JsonController;
 import com.loveofworld.mvc.model.data.Params;
-import com.loveofworld.mvc.model.message.JsonMessage;
-import com.loveofworld.mvc.service.GasStationService;
 import com.loveofworld.system.ConstValue;
 import com.loveofworld.system.MessageValue;
 import com.loveofworld.system.util.Log;
-import com.loveofworld.system.util.Util;
 
 @Controller("jsonMessageControllerSample")
 @RemotingDestination
-public class JsonMessageControllerSample extends JsonControllerService{
+public class JsonMessageControllerSample extends JsonController{
 
 	@RequestMapping(value="/jsonMessageControllerSample/test.json", method=RequestMethod.GET)
 	@ResponseBody
@@ -78,47 +74,6 @@ public class JsonMessageControllerSample extends JsonControllerService{
 		
 		
 	}
-	
-	
-	
-
-
-	@RequestMapping(value="/jsonMessageControllerSample/setGasPriceInfo.json", method=RequestMethod.GET)
-	@ResponseBody
-	public Map setGasPriceInfo(HttpServletRequest request, Params params){
-
-		ArrayList<Map<String, Object>> reponseData = new ArrayList<Map<String, Object>>();
-		
-		GasStationService gasStationService = new GasStationService();
-		gasStationService.setGasPriceInfo();
-	
-		return getJsonMsg(ConstValue.ERROR_CODE_SUCCESS, MessageValue.MSG_SUCCESS, params, reponseData);
-		
-		
-	}
-	
-	
-	
-	
-
-	@RequestMapping(value="/jsonMessageControllerSample/getGasPriceInfo.json", method=RequestMethod.GET)
-	@ResponseBody
-	public Map test_CloudMySql(HttpServletRequest request, Params params){
-
-		GasStationService gasStationService = new GasStationService();
-		List<Map<String, Object>> reponseData = gasStationService.getGasDailyInfo();
-		
-		JsonMessage jsonMessage = new JsonMessage();
-		jsonMessage.setSTATUS(ConstValue.ERROR_CODE_SUCCESS);
-		jsonMessage.setMSG(MessageValue.MSG_SUCCESS);
-		jsonMessage.setParams(params);
-		jsonMessage.setMapDataList(reponseData);
-		
-		return jsonMessage.convertResponseMessage();
-		
-		
-	}
-	
 
 
 }

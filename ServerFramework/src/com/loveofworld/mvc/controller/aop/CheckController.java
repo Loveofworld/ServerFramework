@@ -15,9 +15,9 @@ import com.loveofworld.system.util.Log;
 import com.loveofworld.system.util.Util;
 
 @Aspect
-public class ControllerAOP {
+public class CheckController {
 
-	@Pointcut("execution(* com.vinflux.mobile.mvc.controller..*(..))")
+	@Pointcut("execution(* *..mvc.controller..*(..))")
 	public void checkExcutingController() {}
 	
 	@Around("checkExcutingController()")
@@ -61,7 +61,7 @@ public class ControllerAOP {
         Log.getInstance().printLog(this, "Request URL : signatureString : " + signatureString);
         
         
-        if(signatureString.contains("com.vinflux.mobile.mvc.controller.noauth")){
+        if(signatureString.contains(".noauth")){
         	authResult = requestAuth.AUTH_PASS;
         }
         else{

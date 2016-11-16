@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd"> 
 
-<mapper namespace="com.vinflux.mobile.admin.info">
+<mapper namespace="com.loveofworld.admin.master">
 
 	<parameterMap id="parameterMap" type="java.util.HashMap" />
  	<resultMap id="resultMap" type="java.util.HashMap" />
 
-	<select id="SelectCountryInfo" parameterMap="parameterMap" resultMap="resultMap">
+	<select id="SelectCenterInfo" parameterMap="parameterMap" resultMap="resultMap">
 		<![CDATA[
 			SELECT *
 			  FROM TADMIN_MST_CT
-			 WHERE COUNTRYCODE = #{COUNTRYCODE}
+			 WHERE COUNTRYCODE = #{LAKEY}
 		]]>		
 	</select>
 
+
 	<select id="SelectCodeInfo" parameterMap="parameterMap" resultMap="resultMap">
 		<![CDATA[
-			SELECT ADCD_DTKEY, ADCD_DTNAME
+			SELECT *
 			  FROM TADMIN_MST_ADCD_DT
-			 WHERE ADCD_HDKEY   = #{ADCD_HDKEY}
-			   AND LAKEY        = #{LAKEY}
+			 WHERE LAKEY        = #{LAKEY}
 		]]>		
 	</select>
 

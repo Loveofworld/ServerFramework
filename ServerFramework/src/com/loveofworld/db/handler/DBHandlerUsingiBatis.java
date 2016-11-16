@@ -8,7 +8,7 @@ import org.mybatis.spring.SqlSessionFactoryBean;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
-import org.springframework.orm.ibatis.SqlMapClientFactoryBean;
+//import org.springframework.orm.ibatis.SqlMapClientFactoryBean;
 import com.ibatis.sqlmap.client.SqlMapClient;
 import com.ibatis.sqlmap.client.SqlMapClientBuilder;
 import com.ibatis.sqlmap.engine.impl.SqlMapClientImpl;
@@ -42,14 +42,14 @@ public class DBHandlerUsingiBatis extends DBHandlerService{
 	
 			ResourcePatternResolver resourcePatternResolver = new PathMatchingResourcePatternResolver();
 			String packageSearchPath = ResourcePatternResolver.CLASSPATH_ALL_URL_PREFIX 
-					                 + dbProperties.getProperty("handler.config.mapper");
-			
+					                 + dbProperties.getProperty("handler.mapper");
+			/*
 			SqlMapClientFactoryBean sqlMapClientFactoryBean = new SqlMapClientFactoryBean();
 			sqlMapClientFactoryBean.setDataSource(basicDataSource);
 			sqlMapClientFactoryBean.setConfigLocation(new ClassPathResource(dbProperties.getProperty("handler.config")));
 			sqlMapClientFactoryBean.setMappingLocations(resourcePatternResolver.getResources(packageSearchPath));		
 			sqlMap = sqlMapClientFactoryBean.getObject();
-		   
+		   */
 			Log.getInstance().printLog(this, "Setting SqlSessionFactory : " + sqlMap.toString());
 			
 		} catch (Exception e) {

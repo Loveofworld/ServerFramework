@@ -14,14 +14,14 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.loveofworld.mvc.controller.abstracts.ViewControllerSevice;
+import com.loveofworld.mvc.controller.abstracts.ViewController;
 import com.loveofworld.mvc.view.View;
 import com.loveofworld.system.util.Log;
 import com.loveofworld.test.MemberInfoBean;
 import com.loveofworld.test.TestExcelView;
 
 @Controller
-public class MainControllerSample extends ViewControllerSevice{
+public class MainControllerSample extends ViewController{
 
 	
 	@RequestMapping("/Main/Test.do")

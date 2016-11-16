@@ -78,7 +78,7 @@ public class Util {
 	}
 	
 	public Properties getSystemProperties(String resourcePath){
-		String systemResourcePath = "com/vinflux/mobile/system/properties/"+resourcePath;
+		String systemResourcePath = ConstValue.RESOURCE_PATH + resourcePath;
 		return getInstance().getProperties(systemResourcePath);
 	}
 	
@@ -88,7 +88,7 @@ public class Util {
 	}
 	
 	public String authNumberGen(String key){
-		
+		/*
 		String authNum = null;
 		try {
 			authNum = EncryptionUtils.encryptAES(key);
@@ -98,6 +98,8 @@ public class Util {
 		};
 		
 		return authNum;
+		*/
+		return key;
 		
 	};
 }

@@ -35,7 +35,7 @@ import com.loveofworld.system.util.Log;
 
  */
 
-public class JsonControllerService {
+public class JsonController {
 	
 	protected Map<String, Object> getJsonMsg(String status, String msg, Params params, Object resultData){
 	

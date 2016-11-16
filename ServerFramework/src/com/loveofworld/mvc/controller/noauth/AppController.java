@@ -11,14 +11,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.google.android.gcm.server.Result;
-import com.loveofworld.mvc.controller.abstracts.ViewControllerSevice;
+import com.loveofworld.mvc.controller.abstracts.ViewController;
 import com.loveofworld.mvc.model.message.PushMessage_Android;
 import com.loveofworld.mvc.model.message.PushMessage_iOS;
 import com.loveofworld.system.util.Log;
 
 //Service Name : Main
-@Controller
-public class AppController extends ViewControllerSevice{
+@Controller("AppController")
+public class AppController extends ViewController{
 	
 	@RequestMapping(value="App/SESAME.do", method=RequestMethod.GET)
 	public ModelAndView AppController(HttpServletRequest request){

@@ -21,14 +21,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.View;
 
-import com.loveofworld.mvc.controller.abstracts.ViewControllerSevice;
+import com.loveofworld.mvc.controller.abstracts.ViewController;
 import com.loveofworld.mvc.model.message.XMLMessage;
 import com.loveofworld.system.ConstValue;
 import com.loveofworld.system.MessageValue;
 import com.loveofworld.system.util.Log;
 
 @Controller
-public class XMLMessageControllerSample extends ViewControllerSevice{
+public class XMLMessageControllerSample extends ViewController{
     
 	@RequestMapping("/XMLMessageTest.xml")
 	public ModelAndView XMLMessageTest(HttpServletRequest request, ModelAndView model){

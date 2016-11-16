@@ -1,222 +1,484 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" 
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" >
-         
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>com.loveofworld.server</groupId>
-  <artifactId>com.loveofworld.server</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
-  <name>LoveofworldServerModule</name>
-  <description>Loveofworld Server Module</description>
-  
-  	<repositories>
-	  <repository>
-	    <id>gcm-server-repository</id>
-	    <url>https://raw.githubusercontent.com/slorber/gcm-server-repository/master/releases/</url>
-	  </repository>
-  	</repositories>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.loveofworld</groupId>
+	<artifactId>ServerFramework</artifactId>
+	<version>1.0.0</version>
+	<packaging>war</packaging>
+	<name>ServerFramework</name>
+	<description>Loveofworld Server Framework</description>
+	
+	
+	<repositories>
+		<repository>
+		    <id>oracle</id>
+		    <name>ORACLE JDBC Repository</name>
+		    <url>http://maven.jahia.org/maven2</url>
+		</repository>
+	    
+	  	<repository>
+	    	<id>gcm-server-repository</id>
+	    	<url>https://raw.githubusercontent.com/slorber/gcm-server-repository/master/releases/</url>
+	  	</repository>
   	
-  	<properties>
-		<spring.maven.artifact.version>4.3.3.RELEASE</spring.maven.artifact.version>
-		<spring.orm.maven.artifact.version>3.2.7.RELEASE</spring.orm.maven.artifact.version>
-		<ibatis.maven.artifact.version>2.3.4.726</ibatis.maven.artifact.version>
-		<blazeds.maven.artifact.version>3.2.0.3978</blazeds.maven.artifact.version>
+	</repositories>
+	
+	
+	<properties>
+		<spring.maven.artifact.version>3.1.2.RELEASE</spring.maven.artifact.version>
+		<egovframework.rte.artifact.version>2.5.0</egovframework.rte.artifact.version>
+        <spring.flex.maven.artifact.version>1.0.3.RELEASE</spring.flex.maven.artifact.version>
+        <spring.flex.core.maven.artifact.version>1.5.2.RELEASE</spring.flex.core.maven.artifact.version>
+        <blazeds.maven.artifact.version>3.2.0.3978</blazeds.maven.artifact.version>   
+               	
+        <cxf.version>3.0.0</cxf.version>   
 	</properties>
-
-  <build>
-    <sourceDirectory>src</sourceDirectory>
-    <resources>
-      <resource>
-        <directory>src</directory>
-        <excludes>
-          <exclude>**/*.java</exclude>
-        </excludes>
-      </resource>
-    </resources>
-    <plugins>
-      <plugin>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.1</version>
-        <configuration>
-          <source>1.8</source>
-          <target>1.8</target>
-        </configuration>
-      </plugin>
-      <plugin>
-        <artifactId>maven-war-plugin</artifactId>
-        <version>2.4</version>
-        <configuration>
-          <warSourceDirectory>WebContent</warSourceDirectory>
-          <failOnMissingWebXml>false</failOnMissingWebXml>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
-  	
+	
+	<build>
+		<sourceDirectory>src</sourceDirectory>
+		<resources>
+			<resource>
+				<directory>src</directory>
+				<excludes>
+					<exclude>**/*.java</exclude>
+				</excludes>
+			</resource>
+		</resources>
+		
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.1</version>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>2.3</version>
+				<configuration>
+					<warSourceDirectory>WebContent</warSourceDirectory>
+					<failOnMissingWebXml>false</failOnMissingWebXml>
+				</configuration>
+			</plugin>
+		</plugins>
+		 
+	</build>
+	
 	<dependencies>
-
-		<!-- loveofworld : Spring Framework Maven Reaource  -->	    
-	    <dependency>
-	        <groupId>org.springframework</groupId>
-	        <artifactId>spring-context</artifactId>
-	        <version>${spring.maven.artifact.version}</version>
-	    </dependency>
-  	
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-core</artifactId>
-			<version>${spring.maven.artifact.version}</version>
-		</dependency>
-		
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-web</artifactId>
-			<version>${spring.maven.artifact.version}</version>
-		</dependency>
-		
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-webmvc</artifactId>
-			<version>${spring.maven.artifact.version}</version>
-		</dependency>
-		  	
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-orm</artifactId>
-			<version>${spring.orm.maven.artifact.version}</version>
-		</dependency>
-		
-		
-		<!-- loveofworld : Aspectj Maven Reaource  -->	    
-		<dependency>
-			<groupId>org.aspectj</groupId>
-			<artifactId>aspectjrt</artifactId>
-			<version>1.7.3</version>
-		</dependency>
 	
-
-		<!-- loveofworld : Spring Flex Maven Reaource  -->	    
 		<dependency>
-			<groupId>org.springframework.flex</groupId>
-			<artifactId>spring-flex-core</artifactId>
-			<version>1.5.2.RELEASE</version>
+			<groupId>org.apache.activemq</groupId>
+			<artifactId>activemq-all</artifactId>
+			<version>5.9.0</version>
 		</dependency>
-
-
-		<!-- loveofworld : Adobe Blazeds Maven Reaource  -->	    
 		<dependency>
-			<groupId>com.adobe.blazeds</groupId>
-			<artifactId>blazeds-core</artifactId>
-			<version>${blazeds.maven.artifact.version}</version>
+			<groupId>aopalliance</groupId>
+			<artifactId>aopalliance</artifactId>
+			<version>1.0</version>
 		</dependency>
-				
 		<dependency>
-			<groupId>com.adobe.blazeds</groupId>
-			<artifactId>blazeds-common</artifactId>
-			<version>${blazeds.maven.artifact.version}</version>
+			<groupId>cglib</groupId>
+			<artifactId>cglib-nodep</artifactId>
+			<version>2.1_3</version>
 		</dependency>
-		
 		<dependency>
-			<groupId>com.adobe.blazeds</groupId>
-			<artifactId>blazeds-proxy</artifactId>
-			<version>${blazeds.maven.artifact.version}</version>
+			<groupId>commons-collections</groupId>
+			<artifactId>commons-collections</artifactId>
+			<version>20040616</version>
 		</dependency>
-		
-		<dependency>
-			<groupId>com.adobe.blazeds</groupId>
-			<artifactId>blazeds-remoting</artifactId>
-			<version>${blazeds.maven.artifact.version}</version>
-		</dependency>
-
-		
-		<!-- loveofworld : Database Maven Reaource : iBatis -->	    
-	    <dependency>
-			<groupId>org.apache.ibatis</groupId>
-			<artifactId>ibatis-sqlmap</artifactId>
-			<version>${ibatis.maven.artifact.version}</version>
-		</dependency>
-		
-		<dependency>
-			<groupId>org.apache.ibatis</groupId>
-			<artifactId>ibatis-core</artifactId>
-			<version>3.0</version>
-		</dependency>
-	
-	
-		<!-- loveofworld : Database Maven Reaource : myBatis -->	    
-	    <dependency>
-			<groupId>org.mybatis</groupId>
-			<artifactId>mybatis</artifactId>
-			<version>3.2.8</version>
-		</dependency>
-		
-		<dependency>
-			<groupId>org.mybatis</groupId>
-			<artifactId>mybatis-spring</artifactId>
-			<version>1.3.0</version>
-		</dependency>
-		
 		<dependency>
 			<groupId>commons-dbcp</groupId>
 			<artifactId>commons-dbcp</artifactId>
-			<version>1.4</version>
+			<version>20030825.184428</version>
 		</dependency>
-				
-				
-		<!-- loveofworld : Http Maven Reaource  -->	
 		<dependency>
-			<groupId>org.apache.httpcomponents</groupId>
-			<artifactId>httpclient</artifactId>
-			<version>4.3.6</version>
+			<groupId>commons-fileupload</groupId>
+			<artifactId>commons-fileupload</artifactId>
+			<version>1.3</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>20030203.000550</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-lang</groupId>
+			<artifactId>commons-lang</artifactId>
+			<version>20030203.000129</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-logging</groupId>
+			<artifactId>commons-logging</artifactId>
+			<version>1.1.3</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-pool</groupId>
+			<artifactId>commons-pool</artifactId>
+			<version>20030825.183949</version>
+		</dependency>
+		<dependency>
+			<groupId>dom4j</groupId>
+			<artifactId>dom4j</artifactId>
+			<version>1.6.1</version>
+		</dependency>
+		<dependency>
+			<groupId>com.ibatis</groupId>
+			<artifactId>ibatis-common</artifactId>
+			<version>2.1.0.565</version>
+		</dependency>
+		<dependency>
+			<groupId>com.ibatis</groupId>
+			<artifactId>ibatis-dao</artifactId>
+			<version>2.1.0.565</version>
+		</dependency>
+		<dependency>
+			<groupId>com.ibatis</groupId>
+			<artifactId>ibatis-sqlmap</artifactId>
+			<version>2.1.0.565</version>
+		</dependency>
+		<dependency>
+			<groupId>jstl</groupId>
+			<artifactId>jstl</artifactId>
+			<version>1.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis</artifactId>
+			<version>3.2.3</version>
+		</dependency>
+		<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis-spring</artifactId>
+			<version>1.2.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aop</artifactId>
+			<version>3.1.0.RELEASE</version>
 		</dependency>
 		
 		
-		<!-- loveofworld : JSON Maven Reaource  -->	
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-asm</artifactId>
+			<version>3.1.0.RELEASE</version>
+		</dependency>
+		
+		
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aspects</artifactId>
+			<version>3.1.0.RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-beans</artifactId>
+			<version>3.1.0.RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+			<version>3.1.0.RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context-support</artifactId>
+			<version>3.1.0.RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-core</artifactId>
+			<version>3.1.0.RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-expression</artifactId>
+			<version>3.1.0.RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-instrument</artifactId>
+			<version>3.1.0.RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-instrument-tomcat</artifactId>
+			<version>3.1.0.RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
+			<version>3.1.0.RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-orm</artifactId>
+			<version>3.1.0.RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-oxm</artifactId>
+			<version>3.1.0.RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<version>3.1.0.RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+			<version>3.1.0.RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi</artifactId>
+			<version>3.10-beta2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-examples</artifactId>
+			<version>3.10-beta2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-ooxml</artifactId>
+			<version>3.10-beta2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-ooxml-schemas</artifactId>
+			<version>3.10-beta2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-scratchpad</artifactId>
+			<version>3.10-beta2</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+			<version>3.0-alpha-1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.xmlbeans</groupId>
+			<artifactId>xmlbeans</artifactId>
+			<version>2.6.0</version>
+		</dependency>
+		<dependency>
+			<groupId>net.sf.json-lib</groupId>
+			<artifactId>json-lib</artifactId>
+			<version>2.4</version>
+			<classifier>jdk13</classifier>
+		</dependency>
+		<dependency>
+			<groupId>org.directwebremoting</groupId>
+			<artifactId>dwr</artifactId>
+			<version>3.0.M1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc-portlet</artifactId>
+			<version>3.1.0.RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc-struts</artifactId>
+			<version>2.5.6.SEC03</version>
+		</dependency>
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.13</version>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.8</version>
+		</dependency>
 		<dependency>
 			<groupId>com.googlecode.json-simple</groupId>
 			<artifactId>json-simple</artifactId>
 			<version>1.1</version>
 		</dependency>
 		
-		
-		<!-- loveofworld : CSV Reader Maven Reaource  -->	
 		<dependency>
-			<groupId>au.com.bytecode</groupId>
-			<artifactId>opencsv</artifactId>
-			<version>2.4</version>
+		    <groupId>com.oracle</groupId>
+		    <artifactId>ojdbc6</artifactId>
+		    <version>11.1.0.7.0</version>
 		</dependency>
 
-		
-		<!-- loveofworld : Apache POI  Maven Reaource  -->	
+
+	 	
 		<dependency>
-			<groupId>org.apache.poi</groupId>
-			<artifactId>poi</artifactId>
-			<version>3.12</version>
-		</dependency>
-				
-		<dependency>
-			<groupId>org.apache.poi</groupId>
-			<artifactId>poi-ooxml</artifactId>
-			<version>3.9</version>
+			<groupId>org.mybatis.generator</groupId>
+			<artifactId>mybatis-generator-core</artifactId>
+			<version>1.3.2</version>
 		</dependency>
 		
-		
-		<!-- loveofworld : Log4j  Maven Reaource  -->	
 		<dependency>
-			<groupId>log4j</groupId>
-			<artifactId>log4j</artifactId>
-			<version>1.2.17</version>
+			<groupId>org.jasig.portal</groupId>
+			<artifactId>uportal-impl</artifactId>
+			<version>3.2.5</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.springframework.integration</groupId>
+			<artifactId>spring-integration-core</artifactId>
+			<version>1.0.1.RELEASE</version>
 		</dependency>
 		
 		
-		<!-- loveofworld : Apache Common-lang  Maven Reaource  -->	
+		
+ 		<!-- blazeDS 관련  -->
+ 
 		<dependency>
-			<groupId>commons-lang</groupId>
-			<artifactId>commons-lang</artifactId>
-			<version>2.4</version>
+			<groupId>org.springframework.flex</groupId>
+			<artifactId>spring-flex</artifactId>
+			<version>${spring.flex.maven.artifact.version}</version>
+		</dependency>                     
+ 
+		<dependency>
+			<groupId>com.adobe.blazeds</groupId>
+			<artifactId>blazeds-common</artifactId>
+			<version>${blazeds.maven.artifact.version}</version>
+		</dependency>
+		            		
+		<dependency>
+			<groupId>com.adobe.blazeds</groupId>
+			<artifactId>blazeds-core</artifactId>
+			<version>${blazeds.maven.artifact.version}</version>
+		</dependency>
+		            		            		
+		<dependency>
+			<groupId>com.adobe.blazeds</groupId>
+			<artifactId>blazeds-proxy</artifactId>
+			<version>${blazeds.maven.artifact.version}</version>
+		</dependency>			 		            	
+		            
+		<dependency>
+			<groupId>com.adobe.blazeds</groupId>
+			<artifactId>blazeds-remoting</artifactId>
+			<version>${blazeds.maven.artifact.version}</version>
 		</dependency>
 		
+		<dependency>
+			<groupId>com.adobe.blazeds</groupId>
+			<artifactId>blazeds-opt</artifactId>
+			<version>${blazeds.maven.artifact.version}</version>
+		</dependency>		
+
+		<!-- blazeDS 관련  END -->  		
 		
+		<dependency>
+			<groupId>xalan</groupId>
+			<artifactId>xalan</artifactId>
+			<version>2.7.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>backport-util-concurrent</groupId>
+			<artifactId>backport-util-concurrent</artifactId>
+			<version>3.0</version>
+		</dependency>
+
+
+		<!-- CXF SOAP WerbService 관련  Start --> 
+	 	<dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-frontend-jaxws</artifactId>
+            <version>${cxf.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-transports-http</artifactId>
+            <version>${cxf.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-transports-http-jetty</artifactId>
+            <version>${cxf.version}</version>
+        </dependency>
+        
+        <!-- CXF SOAP WerbService 관련  Start END -->
+
+	<!-- 
+		CXF 설정 후 java.lang.NoSuchMethodError:org.objectweb.asm.ClassWriter.<init>(Z)V 에러 발생할 경우
+		CXF관련 jar를 설정하다 보면 CXF, Hibernate에서 참조하는 asm-3.3.jar를 추가 설정하게 된다. 
+		설정 후 서버를 실행하면 Sprint Framework의 web.xml에 설정한 Dispatcher 부분에서 위와 같은 에러가 발생한다. 
+		또는 webService, dao와 business 두 개로 나누었던 프로젝트를 이를 묶어서 Tomcat에 올리는 상황에서 각각을 분리하여 
+		테스트를 하면 정상적이다가, 합쳐서 디플로이를 하면 문제가 발생하기도 한다. 
+		
+  		Google을 검색해보고 asm jar 파일 버전을 낮추라는 말(http://bit.ly/r8mNTP)이 있다. 그래서 일단은 1.5.3 버젼을 사용하여 문제는 해결할 수 있다.
+		[출처] http://blog.naver.com/hjhbboy/80140693414
+	 -->
+	    <dependency>
+        	<groupId>asm</groupId>
+        	<artifactId>asm</artifactId>
+        	<version>1.5.3</version>
+        </dependency>
+        <dependency>
+        	<groupId>antlr</groupId>
+        	<artifactId>antlr</artifactId>
+        	<version>2.7.6</version>
+        </dependency>
+
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>5.1.6</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>net.sf.opencsv</groupId>
+		    <artifactId>opencsv</artifactId>
+		    <version>2.3</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+			<version>4.1-alpha1</version>
+		</dependency>
+
+	
+	<dependency>
+		<groupId>org.aspectj</groupId>
+		<artifactId>aspectjrt</artifactId>
+		<version>1.7.4</version>
+	</dependency>
+	
+	<dependency>
+		<groupId>org.aspectj</groupId>
+		<artifactId>aspectjweaver</artifactId>
+		<version>1.7.4</version>
+	</dependency>
+	
+	<dependency>
+		<groupId>org.aspectj</groupId>
+		<artifactId>aspectjtools</artifactId>
+		<version>1.7.4</version>
+	</dependency>
+	
+	<dependency>
+		<groupId>org.aspectj</groupId>
+		<artifactId>aspectjlib</artifactId>
+		<version>1.6.2</version>
+	</dependency>
+
+
+	<dependency> 
+	  <groupId>org.apache.httpcomponents</groupId>
+	  <artifactId>httpclient</artifactId>       
+	  <version>4.1</version>   
+	  <type>jar</type>   
+	  <scope>compile</scope>
+	</dependency>
+
+
 		<!-- loveofworld : Android Push Sender Maven Reaource  -->
 		<dependency>
 		    <groupId>com.google.android.gcm</groupId>
@@ -224,6 +486,13 @@
 		    <version>1.0.2</version>
 		</dependency>
 		
+						
+		<!-- loveofworld : Http Maven Reaource  -->	
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+			<version>4.3.6</version>
+		</dependency>
 		
 		<!-- loveofworld : iOS Push Sender Maven Reaource 			
 		2016. 06. 24. : Cho Yongkyun : 최신 버전의 라이브러리로 변경해야 함.
@@ -234,9 +503,22 @@
 		</dependency>
 		 -->	
 		
-			    
+		<dependency>
+		    <groupId>com.fasterxml.jackson.core</groupId>
+		    <artifactId>jackson-core</artifactId>
+		    <version>2.8.4</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>org.codehaus.jackson</groupId>
+		    <artifactId>jackson-mapper-asl</artifactId>
+		    <version>1.9.9</version>
+		</dependency>
+				
+		
+
+
 	</dependencies>
-  
-  
-	<packaging>war</packaging>
+
+
 </project>

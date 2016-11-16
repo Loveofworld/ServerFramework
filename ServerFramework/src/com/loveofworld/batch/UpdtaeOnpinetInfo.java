@@ -1,12 +1,14 @@
 package com.loveofworld.batch;
 
-import java.util.List;
-import java.util.Map;
+
+public class UpdtaeOnpinetInfo{
+	
+}
+/*
 
 import com.loveofworld.batch.interfaces.ExcuteBatchModule;
 import com.loveofworld.mvc.common.abstracts.CommonService;
-import com.loveofworld.mvc.service.GasStationService;
-import com.loveofworld.system.util.Log;
+
 
 public class UpdtaeOnpinetInfo extends CommonService implements ExcuteBatchModule{
 
@@ -49,7 +51,8 @@ public class UpdtaeOnpinetInfo extends CommonService implements ExcuteBatchModul
 		Log.getInstance().printLog(this, "===============================================");
 		
 		
-		
 	}
 
 }
+
+*/

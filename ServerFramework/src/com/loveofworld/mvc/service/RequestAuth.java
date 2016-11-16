@@ -41,7 +41,7 @@ public class RequestAuth extends CommonService{
 		
 		String auth_des = null;
 		try {
-			auth_des = EncryptionUtils.decryptAES(auth);
+			//auth_des = EncryptionUtils.decryptAES(auth);
 			Log.getInstance().printLog(this, "Reqest Session User Info : auth_des : " + auth_des);
 			//isCheckAuth = AUTH_SUCCESS;
 			/*

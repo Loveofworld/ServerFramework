@@ -4,7 +4,10 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
 
+import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
+
+
 
 
 public class Log {
@@ -20,6 +23,7 @@ public class Log {
 			synchronized (Log.class){
 				if(instance == null){
 					instance = new Log();
+					BasicConfigurator.configure();
 				}
 			}
 		}

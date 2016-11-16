@@ -30,11 +30,11 @@ import com.loveofworld.mvc.view.View;
 
 */
 
-public abstract class ViewControllerSevice extends CommonService{
+public abstract class ViewController extends CommonService{
 	
 	protected View view;
 
-	protected ViewControllerSevice(){
+	protected ViewController(){
 		this.setView(View.getInstance());
 	}
 	
