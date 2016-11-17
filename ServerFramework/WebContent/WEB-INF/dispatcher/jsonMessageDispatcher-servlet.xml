@@ -40,7 +40,10 @@
 	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter" p:alwaysUseFullPath="true">
 		<property name="messageConverters">
 			<list>
+				<!-- 2016. 11. 17. : Cho yongkyun : Spring 4 부터 없어짐. 
 				<bean class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter" />
+				-->
+				<bean class="org.springframework.http.converter.json.GsonHttpMessageConverter" />
 				<bean class="org.springframework.http.converter.StringHttpMessageConverter" />
 			</list>
 		</property>
